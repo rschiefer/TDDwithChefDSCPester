@@ -1,0 +1,25 @@
+LineLength:
+  Enabled: no
+Lint/EndAlignment:
+  EnforcedStyleAlignWith: variable
+MethodLength:
+  Enabled: no
+Metrics/AbcSize:
+  Enabled: no
+Metrics/BlockLength:
+  Max: 90
+Metrics/ClassLength:
+  Enabled: no
+Metrics/CyclomaticComplexity:
+  Enabled: no
+Metrics/LineLength:
+  Enabled: no
+Metrics/PerceivedComplexity:
+  Enabled: no
+Style/CaseIndentation:
+  EnforcedStyle: end
+  IndentOneStep: yes
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: consistent_comma
