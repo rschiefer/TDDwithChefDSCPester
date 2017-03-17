@@ -1,0 +1,1 @@
+node.default['powershell']['installation_reboot_mode'] = 'immediate_reboot'
