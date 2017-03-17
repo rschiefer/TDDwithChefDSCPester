@@ -19,4 +19,9 @@ describe 'acme_win_web::default' do
     it 'creates Logs directory' do
       expect(chef_run).to create_directory('Log_Folder')
     end
+    it 'creates Data directory' do
+      expect(chef_run).to run_dsc_resource('Data_Folder').with(
+        resource: :file 
+      )
+    end
 end
