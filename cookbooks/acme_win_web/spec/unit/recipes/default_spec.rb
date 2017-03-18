@@ -7,11 +7,13 @@
 require 'spec_helper'
 
 describe 'acme_win_web::default' do
-    # let(:chef_run) do
-    cached(:chef_run) do
+    let(:chef_run) do
+    # cached(:chef_run) do
       runner = ChefSpec::SoloRunner.new(platform: 'windows', version: '2008r2')
       runner.converge(described_recipe)
     end
+    cookbook_name = 'acme_win_web'
+
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
@@ -31,4 +33,5 @@ describe 'acme_win_web::default' do
         } 
       )
     end
+    
 end
