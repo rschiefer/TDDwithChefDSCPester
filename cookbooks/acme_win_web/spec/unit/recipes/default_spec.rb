@@ -7,7 +7,8 @@
 require 'spec_helper'
 
 describe 'acme_win_web::default' do
-    let(:chef_run) do
+    # let(:chef_run) do
+    cached(:chef_run) do
       runner = ChefSpec::SoloRunner.new(platform: 'windows', version: '2008r2')
       runner.converge(described_recipe)
     end
@@ -17,11 +18,17 @@ describe 'acme_win_web::default' do
     end
 
     it 'creates Logs directory' do
-      expect(chef_run).to create_directory('Log_Folder')
+      expect(chef_run).to create_directory('Log_Folder').with(
+        path: 'C:\Logs'
+      )
     end
     it 'creates Data directory' do
       expect(chef_run).to run_dsc_resource('Data_Folder').with(
-        resource: :file 
+        resource: :file,
+        properties: {
+          destinationpath: 'C:\Data',
+          type: 'Directory'
+        } 
       )
     end
 end
