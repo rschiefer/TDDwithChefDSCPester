@@ -24,6 +24,19 @@ describe 'acme_win_web::default' do
         path: 'C:\Logs'
       )
     end
+
+    logFolder = 'C:\Logs'
+    it 'creates Logs share' do
+      expect(chef_run).to run_dsc_resource("#{cookbook_name}_Create_Logs_Share").with(
+        resource: :script,
+        properties: {
+          setscript: "$args = @('share', '\"Logs\"=\"" + logFolder + "\"', '/GRANT:Everyone,READ');& 'net' $args",
+          getscript: 'Will create Logs file share with read access for everyone.',
+          testscript: '(& "net" "share" "Logs" 2>&1)[0] -isnot [System.Management.Automation.ErrorRecord]'
+        }
+      )
+    end
+
     it 'creates Data directory' do
       expect(chef_run).to run_dsc_resource('Data_Folder').with(
         resource: :file,

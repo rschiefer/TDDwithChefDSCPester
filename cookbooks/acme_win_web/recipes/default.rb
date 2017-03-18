@@ -7,10 +7,18 @@
 
 include_recipe 'powershell::powershell5'
 
+logFolder = 'C:\Logs'
 directory 'Log_Folder' do
     action :create
-    path 'C:\Logs'
+    path logFolder
 end
+dsc_resource "#{cookbook_name}_Create_Logs_Share" do
+	resource :script
+	property :setscript, "$args = @('share', '\"Logs\"=\"" + logFolder + "\"', '/GRANT:Everyone,READ');& 'net' $args"
+  property :getscript, 'Will create Logs file share with read access for everyone.'
+	property :testscript, '(& "net" "share" "Logs" 2>&1)[0] -isnot [System.Management.Automation.ErrorRecord]'
+end
+
 dsc_resource 'Data_Folder' do
     resource :file
     property :destinationpath, 'C:\Data'
