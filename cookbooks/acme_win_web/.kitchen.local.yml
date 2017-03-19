@@ -2,25 +2,27 @@
 driver:
   name: hyperv
   vm_switch: DefaultExternalSwitch
-  # parent_vhd_folder: D:\VirtualMachines\Windows Server 2016 DataCenter Nano VHD
-  # parent_vhd_name: NanoServerDataCenter.vhd
-  # username: administrator
-  # password: admin777!
-  parent_vhd_folder: D:\VirtualMachines
-  parent_vhd_name: packer-virtualbox-iso-1458688988.vhd
-  username: vagrant
-  password: vagrant
+  parent_vhd_folder: D:\VirtualMachines\CleanNano
+  parent_vhd_name: NanoServerDataCenter.vhd
+  username: administrator
+  password: admin777!
+  # parent_vhd_folder: D:\VirtualMachines
+  # parent_vhd_name: packer-virtualbox-iso-1458688988.vhd
+  # username: vagrant
+  # password: vagrant
   memory_startup_bytes: 1073741824
 
 transport:
   name: winrm
-  # username: administrator
-  # password: admin777!
-  username: vagrant
-  password: vagrant
+  username: administrator
+  password: admin777!
+  elevated_username: administrator
+  elevated_password: admin777!
+  # username: vagrant
+  # password: vagrant
+  # elevated_username: vagrant
+  # elevated_password: vagrant
   elevated: true
-  elevated_username: vagrant
-  elevated_password: vagrant
 
 provisioner:
   name: chef_zero
@@ -28,13 +30,14 @@ provisioner:
   # For example:
   #   always_update_cookbooks: <%= !ENV['CI'] %>
   # always_update_cookbooks: true
+  install_msi_url: https://s3-us-west-2.amazonaws.com/nano-chef-client/chef-12.14.60.appx
 
 verifier:
   name: pester
 
   
 platforms:
-  - name: w2008r2
+  - name: nano
     os_type: windows
     shell_type: powershell
     # driver_config:

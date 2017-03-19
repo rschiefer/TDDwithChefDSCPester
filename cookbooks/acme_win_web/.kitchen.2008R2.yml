@@ -1,0 +1,44 @@
+---
+driver:
+  name: hyperv
+  vm_switch: DefaultExternalSwitch
+  parent_vhd_folder: D:\VirtualMachines
+  parent_vhd_name: packer-virtualbox-iso-1458688988.vhd
+  username: vagrant
+  password: vagrant
+  memory_startup_bytes: 1073741824
+
+transport:
+  name: winrm
+  username: vagrant
+  password: vagrant
+  elevated_username: vagrant
+  elevated_password: vagrant
+  elevated: true
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  # always_update_cookbooks: true
+
+verifier:
+  name: pester
+
+  
+platforms:
+  - name: 2008r2
+    os_type: windows
+    shell_type: powershell
+    # driver_config:
+    #   user_data: test/support/scripts/userdata.txt
+
+suites:
+  - name: acme_win_web.default
+    run_list:
+      - recipe[acme_win_web::default]
+    # verifier:
+    #   inspec_tests:
+    #     - test/smoke/default
+    # attributes:
