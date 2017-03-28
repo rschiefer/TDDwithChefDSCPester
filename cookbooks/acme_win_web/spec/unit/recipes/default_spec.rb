@@ -47,4 +47,13 @@ describe 'acme_win_web::default' do
       )
     end
     
+    it 'creates website directory' do
+      expect(chef_run).to run_dsc_resource('websiteDirectory').with(
+        resource: :file,
+        properties: {
+          destinationpath: 'C:\temp\testingDSC_fromChef1',
+          type: 'Directory'
+        }
+      )
+    end
 end

@@ -4,6 +4,8 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
+# TODO: Add attributes
+# TODO: Add IIS site with to psobject call
 
 Chef::Log.debug("nt_version=" + ::Windows::VersionHelper.nt_version(node).to_s)
 notWin10 = (::Windows::VersionHelper.nt_version(node) >= 6.1 and ::Windows::VersionHelper.nt_version(node) < 10)
@@ -46,3 +48,41 @@ dsc_resource 'Data_Folder' do
     property :destinationpath, 'C:\Data'
     property :type, 'Directory'
 end
+
+
+
+# class WebsiteBindings
+#     @bindings = []
+#     def initialize(bindings)
+#         @bindings = bindings
+#     end
+#     def to_psobject()
+#         bindings = Array.new()
+#         @bindings.each do |b|
+#             bindings.push("(new-ciminstance -classname MSFT_xWebBindingInformation -Namespace root/microsoft/Windows/DesiredStateConfiguration -Property @{Protocol='#{b[:protocol]}';IPAddress='#{b[:ip]}';Port=#{b[:port]}} -ClientOnly)")
+#         end
+#         "[ciminstance[]](#{bindings.join(',')})"
+#     end
+# end
+
+
+# bindings = WebsiteBindings.new([
+#     { protocol: 'HTTP', ip: '127.0.0.1', port: 8080 },
+#     { protocol: 'HTTP', ip: '127.0.0.1', port: 8081 } ])
+
+siteName = 'testingDSC_fromChef1'
+siteDirectory = "C:\\temp\\#{siteName}"
+
+
+dsc_resource 'websiteDirectory' do
+    resource :file
+    property :destinationpath, siteDirectory
+    property :type, 'Directory'
+end
+# dsc_resource 'createWebsite' do
+#   resource :xWebsite
+#   property :name, siteName
+#   property :PhysicalPath, siteDirectory
+#   property :BindingInfo, bindings
+# end
+
