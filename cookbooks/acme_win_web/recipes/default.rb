@@ -33,7 +33,7 @@ else
         property :getscript, 'Will download a DSC resource.'
         property :testscript, 'try {(get-dscresource xSmbShare -erroraction stop) -ne $null } catch { return $false}'
     end
-    dsc_resource "#{cookbook_name}_Create_Log_Folder_Share" do
+    dsc_resource "#{cookbook_name}_Create_Logs_Share" do
         resource :xSmbShare
         property :name, 'Logs'
         property :path, logFolder
@@ -51,25 +51,6 @@ end
 
 
 
-# class WebsiteBindings
-#     @bindings = []
-#     def initialize(bindings)
-#         @bindings = bindings
-#     end
-#     def to_psobject()
-#         bindings = Array.new()
-#         @bindings.each do |b|
-#             bindings.push("(new-ciminstance -classname MSFT_xWebBindingInformation -Namespace root/microsoft/Windows/DesiredStateConfiguration -Property @{Protocol='#{b[:protocol]}';IPAddress='#{b[:ip]}';Port=#{b[:port]}} -ClientOnly)")
-#         end
-#         "[ciminstance[]](#{bindings.join(',')})"
-#     end
-# end
-
-
-# bindings = WebsiteBindings.new([
-#     { protocol: 'HTTP', ip: '127.0.0.1', port: 8080 },
-#     { protocol: 'HTTP', ip: '127.0.0.1', port: 8081 } ])
-
 siteName = 'testingDSC_fromChef1'
 siteDirectory = "C:\\temp\\#{siteName}"
 
@@ -79,10 +60,14 @@ dsc_resource 'websiteDirectory' do
     property :destinationpath, siteDirectory
     property :type, 'Directory'
 end
-# dsc_resource 'createWebsite' do
-#   resource :xWebsite
-#   property :name, siteName
-#   property :PhysicalPath, siteDirectory
-#   property :BindingInfo, bindings
-# end
-
+dsc_resource 'createWebsite' do
+    def get_website_bindings()
+        WebsiteBindings.new([
+            { protocol: 'HTTP', ip: '127.0.0.1', port: 8080 },
+            { protocol: 'HTTP', ip: '127.0.0.1', port: 8081 } ])
+    end
+    resource :xWebsite
+    property :name, siteName
+    property :physicalPath, siteDirectory
+    property :BindingInfo, get_website_bindings()
+end
