@@ -5,6 +5,7 @@
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
 require 'spec_helper'
+require_relative '../../../libraries/WebsiteBindings'
 
 # TODO: Add Platform specific tests
 
@@ -13,9 +14,11 @@ require 'spec_helper'
 
   describe 'acme_win_web::default' do
     context "on windows #{version}" do
+
       before do
-        allow_any_instance_of(Chef::Resource::DscResource).to receive(:get_website_bindings).and_return('bindings')
+        allow_any_instance_of(WebsiteBindings).to receive(:get_self).and_return('bindings')
       end
+
       let(:chef_run) do
       # cached(:chef_run) do
         runner = ChefSpec::SoloRunner.new(platform: 'windows', version: version)
@@ -79,16 +82,16 @@ require 'spec_helper'
       end
 
       
-      # it 'creates website in IIS' do
-      #   expect(chef_run).to run_dsc_resource('createWebsite').with(
-      #     resource: :xWebsite,
-      #     properties: {
-      #       name: 'testingDSC_fromChef1',
-      #       physicalPath: 'C:\temp\testingDSC_fromChef1',
-      #       BindingInfo: 'bindings'
-      #     }
-      #   )
-      # end
+      it 'creates website in IIS' do
+        expect(chef_run).to run_dsc_resource('createWebsite').with(
+          resource: :xWebsite,
+          properties: {
+            name: 'testingDSC_fromChef1',
+            physicalPath: 'C:\temp\testingDSC_fromChef1',
+            BindingInfo: 'bindings'
+          }
+        )
+      end
     end
   end
 end

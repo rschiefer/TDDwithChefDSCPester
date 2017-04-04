@@ -10,4 +10,7 @@ class WebsiteBindings
         end
         "[ciminstance[]](#{bindings.join(',')})"
     end
-end
+    def get_self()
+        self
+    end
+end unless defined?(WebsiteBindings)

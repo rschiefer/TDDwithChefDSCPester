@@ -60,14 +60,14 @@ dsc_resource 'websiteDirectory' do
     property :destinationpath, siteDirectory
     property :type, 'Directory'
 end
+
+bindings = WebsiteBindings.new([
+        { protocol: 'HTTP', ip: '127.0.0.1', port: 8080 },
+        { protocol: 'HTTP', ip: '127.0.0.1', port: 8081 } ])
+        .get_self()
 dsc_resource 'createWebsite' do
-    def get_website_bindings()
-        WebsiteBindings.new([
-            { protocol: 'HTTP', ip: '127.0.0.1', port: 8080 },
-            { protocol: 'HTTP', ip: '127.0.0.1', port: 8081 } ])
-    end
     resource :xWebsite
     property :name, siteName
     property :physicalPath, siteDirectory
-    property :BindingInfo, get_website_bindings()
+    property :BindingInfo, bindings
 end
