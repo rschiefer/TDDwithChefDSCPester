@@ -7,8 +7,6 @@
 require 'spec_helper'
 require_relative '../../../libraries/WebsiteBindings'
 
-# TODO: Add Platform specific tests
-
 
 ['2008r2', '10'].each do |version|
 

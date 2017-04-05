@@ -5,7 +5,6 @@
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
 # TODO: Add attributes
-# TODO: Add IIS site with to psobject call
 
 Chef::Log.debug("nt_version=" + ::Windows::VersionHelper.nt_version(node).to_s)
 notWin10 = (::Windows::VersionHelper.nt_version(node) >= 6.1 and ::Windows::VersionHelper.nt_version(node) < 10)
