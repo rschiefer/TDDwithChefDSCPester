@@ -27,4 +27,6 @@ describe 'when_running_the_default_recipe' {
             $GuestShare.AccessRight | should be 'Read'
         }
     }
+
+    # TODO: add test for iis site
 }

@@ -60,13 +60,23 @@ dsc_resource 'websiteDirectory' do
     property :type, 'Directory'
 end
 
-bindings = WebsiteBindings.new([
-        { protocol: 'HTTP', ip: '127.0.0.1', port: 8080 },
-        { protocol: 'HTTP', ip: '127.0.0.1', port: 8081 } ])
-        .get_self()
-dsc_resource 'createWebsite' do
-    resource :xWebsite
-    property :name, siteName
-    property :physicalPath, siteDirectory
-    property :BindingInfo, bindings
+
+if notWin10
+    bindings = WebsiteBindings.new([
+            { protocol: 'HTTP', ip: '127.0.0.1', port: 8080 },
+            { protocol: 'HTTP', ip: '127.0.0.1', port: 8081 } ])
+            .get_self()
+    dsc_resource 'createWebsite' do
+        resource :xWebsite
+        property :name, siteName
+        property :physicalPath, siteDirectory
+        property :BindingInfo, bindings
+    end
+else
+    dsc_resource 'createWebsite' do
+        resource :script
+        property :setscript, "Import-module IISAdministration;New-IISSite -BindingInformation '*:8080:' -Name \"#{siteName}\" -PhysicalPath \"#{siteDirectory}\";(Get-IISSite \"#{siteName}\").Bindings.Add(\"*:8081:\", \"http\")"
+        property :getscript, 'Will create website.'
+        property :testscript, "Import-module IISAdministration;(Get-IISSite \"#{siteName}\") -ne $null;"
+    end
 end
