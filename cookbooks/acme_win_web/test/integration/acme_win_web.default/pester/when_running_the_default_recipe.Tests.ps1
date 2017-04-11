@@ -17,16 +17,20 @@ describe 'when_running_the_default_recipe' {
         }
     }
   } else {
-    it 'should create Logs file share' {
-        (get-smbshare 'Logs') | should not be $null
+    # it 'should create Logs file share' {
+    #     (get-smbshare 'Logs') | should not be $null
 
-    }
-        it 'should give all users read access to Logs file share' {
-            $LogsShareAccess = Get-SmbShareAccess -Name 'Logs'
-            $GuestShare = $LogsShareAccess | Where-Object { $_.AccountName.EndsWith('Guest') } | Select-Object -First 1
-            $GuestShare.AccessRight | should be 'Read'
-        }
+    # }
+    #     it 'should give all users read access to Logs file share' {
+    #         $LogsShareAccess = Get-SmbShareAccess -Name 'Logs'
+    #         $GuestShare = $LogsShareAccess | Where-Object { $_.AccountName.EndsWith('Guest') } | Select-Object -First 1
+    #         $GuestShare.AccessRight | should be 'Read'
+    #     }
     }
 
     # TODO: add test for iis site
+
+    # it 'should have registry set' {
+    #     (Get-ItemProperty 'HKLM:\SOFTWARE\Test').foobar | should be 0
+    # }
 }

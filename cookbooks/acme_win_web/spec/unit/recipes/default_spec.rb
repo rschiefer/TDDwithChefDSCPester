@@ -36,17 +36,17 @@ require_relative '../../../libraries/WebsiteBindings'
       end
 
       logFolder = 'C:\Logs'
-      it 'creates Logs share' do        
+      it 'creates Logs share' do
         if version == '10'
-          expect(chef_run).to run_dsc_resource("#{cookbook_name}_Create_Logs_Share").with(
-            resource: :xSmbShare,
-            properties: {
-              name: 'Logs',
-              path: logFolder,
-              readaccess: ['Guest'],
-              ensure: 'Present'
-            }
-          )
+          # expect(chef_run).to run_dsc_resource("#{cookbook_name}_Create_Logs_Share").with(
+          #   resource: :xSmbShare,
+          #   properties: {
+          #     name: 'Logs',
+          #     path: logFolder,
+          #     readaccess: ['Guest'],
+          #     ensure: 'Present'
+          #   }
+          # )
         else
           expect(chef_run).to run_dsc_resource("#{cookbook_name}_Create_Logs_Share").with(
             resource: :script,
@@ -81,17 +81,44 @@ require_relative '../../../libraries/WebsiteBindings'
 
       
       it 'creates website in IIS' do
-        expect(chef_run).to run_dsc_resource('createWebsite').with(
-          resource: :xWebsite,
-          properties: {
-            name: 'testingDSC_fromChef1',
-            physicalPath: 'C:\temp\testingDSC_fromChef1',
-            BindingInfo: 'bindings'
-          }
-        )
+        if version == '10'
+          expect(chef_run).to run_dsc_resource('createWebsite').with(
+            resource: :script,
+            properties: {              
+              setscript: "Import-module IISAdministration;New-IISSite -BindingInformation '*:8080:' -Name \"testingDSC_fromChef1\" -PhysicalPath \"C:\\temp\\testingDSC_fromChef1\";(Get-IISSite \"testingDSC_fromChef1\").Bindings.Add(\"*:8081:\", \"http\")",
+              getscript: 'Will create website.',
+              testscript: "Import-module IISAdministration;(Get-IISSite \"testingDSC_fromChef1\") -ne $null;"
+            }
+          )
+        else
+          expect(chef_run).to run_dsc_resource('createWebsite').with(
+            resource: :xWebsite,
+            properties: {
+              name: 'testingDSC_fromChef1',
+              physicalPath: 'C:\temp\testingDSC_fromChef1',
+              BindingInfo: 'bindings'
+            }
+          )
+        end
       end
 
-      # TODO: add unit test for new-iissite
+      # it 'creates registry key' do
+      #   expect(chef_run).to create_registry_key('HKEY_LOCAL_MACHINE\SOFTWARE\Test').with(
+      #     values: [{:name => 'foobar', :type => :dword, :data => 0}]
+      #   )
+      # end
+      # it 'creates registry key' do
+      #   expect(chef_run).to run_dsc_resource('addRegistryKey').with(
+      #       resource: :registry,
+      #       properties: {
+      #         Key: 'HKEY_LOCAL_MACHINE\SOFTWARE\Test',
+      #         Ensure: 'Present',
+      #         ValueType: 'DWORD',
+      #         ValueName: 'foobar',
+      #         ValueData: ['0']
+      #       }
+      #     )
+      # end
     end
   end
 end
