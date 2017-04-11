@@ -1,12 +1,13 @@
 ---
 driver:
   name: hyperv
-  vm_switch: DefaultExternalSwitch
+  vm_switch: DefaultInternalSwitch
   parent_vhd_folder: D:\VirtualMachines
   parent_vhd_name: NanoDSC_2017.03.19.vhd
   username: administrator
   password: admin777!
-  memory_startup_bytes: 1073741824
+  # memory_startup_bytes: 1073741824
+  memory_startup_bytes: 536870912
 
 transport:
   name: winrm
@@ -18,6 +19,8 @@ transport:
 
 provisioner:
   name: chef_zero
+  install_msi_url: http://169.254.115.200/chef_cache/chef-client-12.19.36-1-x64.msi
+  # install_msi_url: https://packages.chef.io/files/stable/chef/12.19.36/windows/2012r2/chef-client-12.19.36-1-x64.msi
 
 verifier:
   name: pester
@@ -27,7 +30,8 @@ platforms:
     os_type: windows
     shell_type: powershell
     provisioner:    
-      install_msi_url: https://s3-us-west-2.amazonaws.com/nano-chef-client/chef-12.14.60.appx
+      install_msi_url: http://169.254.115.200/chef_cache/chef-12.14.60.appx
+      # install_msi_url: https://s3-us-west-2.amazonaws.com/nano-chef-client/chef-12.14.60.appx
     transport:
       elevated: false
   - name: win2016
