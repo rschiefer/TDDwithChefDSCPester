@@ -6,8 +6,7 @@ driver:
   parent_vhd_name: NanoDSC_2017.03.19.vhd
   username: administrator
   password: admin777!
-  # memory_startup_bytes: 1073741824
-  memory_startup_bytes: 536870912
+  memory_startup_bytes: 1610612736
 
 transport:
   name: winrm
