@@ -6,7 +6,8 @@ driver:
   parent_vhd_name: NanoDSC_2017.03.19.vhd
   username: administrator
   password: admin777!
-  memory_startup_bytes: 1610612736
+  # memory_startup_bytes: 1610612736
+  memory_startup_bytes: 3221225472
 
 transport:
   name: winrm
@@ -18,7 +19,8 @@ transport:
 
 provisioner:
   name: chef_zero
-  install_msi_url: http://169.254.115.200/chef_cache/chef-client-12.19.36-1-x64.msi
+  install_msi_url: http://169.254.115.200/chef_cache/chef-client-13.0.118-1-x64.msi
+  # install_msi_url: http://169.254.115.200/chef_cache/chef-client-12.19.36-1-x64.msi
   # install_msi_url: https://packages.chef.io/files/stable/chef/12.19.36/windows/2012r2/chef-client-12.19.36-1-x64.msi
 
 verifier:
