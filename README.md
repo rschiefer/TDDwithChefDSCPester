@@ -4,6 +4,8 @@ Chef cookbooks for demonstrating test driven development of Windows server confi
 
 ## Version Info
 
+2017.07.11 Update - Also successfully tested with ChefDK 2.0.26
+
 Last demonstrated with the following component versions:
 
  - Windows10 (10.0.14393) with HyperV installed/enabled
